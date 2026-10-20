@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Before the First Door</title>
+<style>
+:root{--bg:#f4efe6;--ink:#2a2622;--muted:#7a7068;--card:#fffaf0;--accent:#9a5b2e;--line:#d9cdb9;--miss:#d9d1c4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42;--miss:#2b3138}}
+:root[data-theme="dark"]{--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42;--miss:#2b3138}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+main{max-width:34rem;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+h1{font-weight:normal;letter-spacing:.3em;text-transform:uppercase;font-size:1rem;text-align:center;color:var(--muted);margin:0 0 2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem}
+.verse{font-style:italic;text-align:center;margin:0 0 1.25rem}
+#rows{margin:1rem 0}
+.gr{display:flex;gap:5px;justify-content:center;margin:5px 0}
+.t{width:2.6rem;height:2.9rem;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:1.3rem;text-transform:uppercase;border:1px solid var(--line);border-radius:5px}
+.t.c2{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.t.c1{border:2px solid var(--accent);color:var(--accent)}
+.t.c0{background:var(--miss);color:var(--muted);border-color:var(--miss)}
+.row{display:flex;gap:.5rem;justify-content:center;margin-top:1.25rem}
+#a{width:9.5rem;text-align:center;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit}
+button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+.msg{min-height:1.5rem;text-align:center;margin-top:.9rem;color:var(--muted);font-style:italic}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;margin-top:.5rem}
+#how{display:none}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#how.show{display:block;animation:fi 1.4s ease both}
+#how p{margin:.8rem 0}
+#how .lead{font-size:1.3rem;text-align:center;margin:0 0 1.2rem}
+#how .sig{text-align:center;color:var(--muted);font-style:italic;margin-top:1.5rem}
+</style>
+</head>
+<body>
+<main>
+<h1>Before the First Door</h1>
+<div class="card" id="play">
+<p class="verse">I ask questions I do not ask,<br>and hide my answer in plain sight.<br>You will meet me again, and again.<br>Name me.</p>
+
+<div class="row"><input id="a" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your guess"><button id="go">Offer</button></div>
+<div class="msg" id="msg"></div>
+
+</div>
+<div class="card" id="how">
+<p class="lead">You have found the way in.</p>
+<p>Five doors will come to you, one at a time, roughly a week apart. Each arrives as a link, from me, and from no one else.</p>
+<p>Behind each door waits a puzzle of a different kind. Solve it, and it hands you a single digit: a key.</p>
+<p>Write every key down, in the order you find it. Memory is a poor vault.</p>
+<p>Nothing beyond the page is needed, only patience and good light. Every answer can be found from what you are given.</p>
+<p>Beneath each solved door you will find a word for the road. Read it twice. It is about what to bring.</p>
+<p>When the fifth door has closed behind you, a sixth will open just before you leave. It will tell you what to do with your keys, and ask for nothing else.</p>
+<p>What waits behind it is worth the climb.</p>
+<p class="sig">The first door opens soon.</p>
+</div>
+</main>
+<script>
+(function(){
+var t=atob("cmlkZGxlfHJpZGRsZXN8YXJpZGRsZXx0aGVyaWRkbGV8cHV6emxlfHB1enpsZXN8YXB1enpsZXx0aGVwdXp6bGU=").split("|"),done=false;
+var msg=document.getElementById("msg");
+function score(g){
+var res=[0,0,0,0,0,0],cnt={},i;
+for(i=0;i<6;i++){if(g.charAt(i)===t.charAt(i)){res[i]=2}else{cnt[t.charAt(i)]=(cnt[t.charAt(i)]||0)+1}}
+for(i=0;i<6;i++){if(res[i]!==2&&cnt[g.charAt(i)]>0){res[i]=1;cnt[g.charAt(i)]--}}
+return res;
+}
+function go(){
+if(done)return;
+var g=document.getElementById("a").value.toLowerCase().replace(/[^a-z]/g,"");
+if(!g)return;
+if(t.indexOf(g)>-1){
+done=true;msg.textContent="";
+document.getElementById("how").className="card show";
+document.getElementById("how").scrollIntoView({behavior:"smooth",block:"start"});
+}else{msg.textContent="Not yet. Think again."}
+}
+document.getElementById("go").onclick=go;
+document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+})();
+</script>
+</body>
+</html>
