@@ -127,7 +127,7 @@ h3.scrollIntoView({behavior:"smooth",block:"start"});
 cells.push(d);lan.appendChild(d);
 })(i)}
 document.getElementById("rs").onclick=function(){if(!won)reset()};
-document.getElementById("hb2").onclick=function(){document.getElementById("h2").innerHTML="Six lanterns hold the answer, and the rest will follow.<br>Touch each of these once, in any order:<br>the second of the first row; the second and the fourth of the second row; the heart of the board; the first of the fourth row; the last of the last."};
+var hn=0;document.getElementById("hb2").onclick=function(){var h=document.getElementById("h2");if(hn===0){h.innerHTML="Begin with two touches: the second lantern of the first row, then the second of the second row.<br>If the path is still dark, ask the lamp once more.";hn=1}else{h.innerHTML="Six lanterns hold the answer, and the rest will follow.<br>Touch each of these once, in any order:<br>the second of the first row; the second and the fourth of the second row; the heart of the board; the first of the fourth row; the last of the last."}};
 reset();
 var PN=5,base={S:10,C:3};
 var cfg=[["S",1],["S",1],["C",0],["C",2],["S",0],["C",1],["S",1],["S",0],["C",3],["C",0],["C",3],["S",1],["C",1],["S",0],["C",2],["S",0],["C",0],["S",1],["C",2],["S",1],["C",2],["S",1],["S",1],["S",1],["S",1]];
