@@ -30,13 +30,15 @@ button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8p
 #s2{display:none}
 #s3{display:none}
 #s3.show3{display:block;animation:fi 1.4s ease both}
-#pipes{display:grid;grid-template-columns:1rem repeat(5,1fr) 1rem;max-width:21rem;margin:1.25rem auto;touch-action:manipulation}
+#pipes{display:grid;grid-template-columns:1rem repeat(6,1fr) 1rem;max-width:22rem;margin:1.25rem auto;touch-action:manipulation}
 .pt{aspect-ratio:1/1;background:var(--bg);border:1px solid var(--line);cursor:pointer}
 .pt svg{display:block;width:100%;height:100%}
 .pt line{stroke:var(--muted);stroke-width:14;stroke-linecap:round;opacity:.55;transition:stroke .25s}
-.pt.lit line{stroke:#ffd27a;opacity:1}
+.pt.lg line{stroke:#ffd27a;opacity:1}
+.pt.lt line{stroke:#4fb8b0;opacity:1}
 .mk{display:flex;align-items:center}
 .mk i{display:block;width:100%;height:.5rem;background:#ffd27a;border-radius:3px}
+.mk i.t{background:#4fb8b0}
 #s2.show2{display:block;animation:fi 1.4s ease both}
 #lan{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:19rem;margin:1.25rem auto;touch-action:manipulation}
 .ln{aspect-ratio:1/1;border-radius:50%;background:var(--miss);border:1px solid var(--line);cursor:pointer;transition:background .25s,box-shadow .25s}
@@ -70,7 +72,7 @@ button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8p
 </div>
 <div class="card" id="s3">
 <p class="hint" style="margin:0 0 .8rem">The third gate</p>
-<p class="verse">The last gate is a river of light.<br>It enters from the left and means to leave by the right.<br>Turn the stones until the light runs through.</p>
+<p class="verse">The last gate holds two rivers of light, one gold and one teal.<br>Each enters from the left and means to leave by the right, in its own colour.<br>Turn the stones until both run through.</p>
 <div id="pipes"></div>
 </div>
 <div class="card" id="how">
@@ -129,14 +131,14 @@ cells.push(d);lan.appendChild(d);
 document.getElementById("rs").onclick=function(){if(!won)reset()};
 var hn=0;document.getElementById("hb2").onclick=function(){var h=document.getElementById("h2");if(hn===0){h.innerHTML="Begin with two touches: the second lantern of the first row, then the second of the second row.<br>If the path is still dark, ask the lamp once more.";hn=1}else{h.innerHTML="Six lanterns hold the answer, and the rest will follow.<br>Touch each of these once, in any order:<br>the second of the first row; the second and the fourth of the second row; the heart of the board; the first of the fourth row; the last of the last."}};
 reset();
-var PN=5,base={S:10,C:3};
-var cfg=[["S",1],["S",1],["C",0],["C",2],["S",0],["C",1],["S",1],["S",0],["C",3],["C",0],["C",3],["S",1],["C",1],["S",0],["C",2],["S",0],["C",0],["S",1],["C",2],["S",1],["C",2],["S",1],["S",1],["S",1],["S",1]];
+var PN=6,base={S:10,C:3};
+var cfg=[["S",1],["C",0],["C",2],["C",3],["S",1],["S",1],["S",1],["S",0],["C",0],["S",0],["C",3],["S",0],["C",1],["C",2],["S",1],["C",1],["S",1],["C",2],["S",0],["C",3],["S",1],["C",0],["C",1],["S",1],["C",3],["S",0],["S",0],["C",1],["S",1],["C",0],["S",1],["C",1],["S",1],["C",0],["S",0],["C",2]];
 var pipes=document.getElementById("pipes"),tiles=[],pdone=false;
 function rot(m,r){return((m<<r)|(m>>(4-r)))&15}
 function mask(r,c){var t=cfg[r*PN+c];return rot(base[t[0]],t[1])}
-function reach(){
+function reach(sr){
 var seen={},st=[];
-if(mask(0,0)&8){seen["0,0"]=1;st.push([0,0])}
+if(mask(sr,0)&8){seen[sr+",0"]=1;st.push([sr,0])}
 var D=[[1,-1,0,4],[2,0,1,8],[4,1,0,1],[8,0,-1,2]];
 while(st.length){
 var p=st.pop(),r=p[0],c=p[1],m=mask(r,c);
@@ -149,21 +151,21 @@ return seen;
 }
 var EP={1:[50,0],2:[100,50],4:[50,100],8:[0,50]};
 function drawP(){
-var seen=reach();
+var g=reach(0),tl=reach(PN-1);
 for(var r=0;r<PN;r++){for(var c=0;c<PN;c++){
 var m=mask(r,c),h="";
 [1,2,4,8].forEach(function(b){if(m&b){h+='<line x1="50" y1="50" x2="'+EP[b][0]+'" y2="'+EP[b][1]+'"/>'}});
-var t=tiles[r*PN+c];
+var t=tiles[r*PN+c],k=r+","+c;
 t.innerHTML='<svg viewBox="0 0 100 100">'+h+'</svg>';
-t.className="pt"+(seen[r+","+c]?" lit":"");
+t.className="pt"+(g[k]?" lg":(tl[k]?" lt":""));
 }}
-if(seen["4,4"]&&(mask(4,4)&2)&&!pdone){
+if(g["0,"+(PN-1)]&&(mask(0,PN-1)&2)&&tl[(PN-1)+","+(PN-1)]&&(mask(PN-1,PN-1)&2)&&!pdone){
 pdone=true;
 setTimeout(function(){document.getElementById("s3").style.display="none";var hw=document.getElementById("how");hw.className="card show";hw.scrollIntoView({behavior:"smooth",block:"start"})},900);
 }
 }
 for(var pr=0;pr<PN;pr++){
-var e1=document.createElement("div");e1.className="mk";if(pr===0){e1.innerHTML="<i></i>"}pipes.appendChild(e1);
+var e1=document.createElement("div");e1.className="mk";if(pr===0){e1.innerHTML="<i></i>"}else if(pr===PN-1){e1.innerHTML='<i class="t"></i>'}pipes.appendChild(e1);
 for(var pc=0;pc<PN;pc++){
 (function(r,c){
 var d=document.createElement("div");
@@ -171,7 +173,7 @@ d.onclick=function(){if(pdone)return;cfg[r*PN+c][1]=(cfg[r*PN+c][1]+1)%4;drawP()
 tiles.push(d);pipes.appendChild(d);
 })(pr,pc);
 }
-var e2=document.createElement("div");e2.className="mk";if(pr===PN-1){e2.innerHTML="<i></i>"}pipes.appendChild(e2);
+var e2=document.createElement("div");e2.className="mk";if(pr===0){e2.innerHTML="<i></i>"}else if(pr===PN-1){e2.innerHTML='<i class="t"></i>'}pipes.appendChild(e2);
 }
 drawP();
 document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
