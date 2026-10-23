@@ -39,7 +39,7 @@ button.ghost{background:none;color:var(--muted);border-color:var(--line);margin-
 <div class="card" id="play">
 <p class="verse">Before you climb, you must step back.<br>Not far: a general’s count of three.<br>What was said is hidden in plain sight;<br>what is hidden is how you will feel.</p>
 <div class="cipher">ZKHUH WKHDL UJURZ VWKLQ WKHZD WHUVW DBVZD UPDQG WKHZR UOGJU RZVVL OHQW</div>
-<p class="ask">The first of your keys is hidden in what you find.</p>
+<p class="ask">The final word carries more than meaning; its count unlocks the way.</p>
 <div class="row"><input id="a" inputmode="text" maxlength="6" autocomplete="off" aria-label="Your key"><button id="go">Try</button></div>
 <div class="msg" id="msg"></div>
 <div class="hint" id="hint"></div>
@@ -56,7 +56,7 @@ button.ghost{background:none;color:var(--muted);border-color:var(--line);margin-
 <script>
 (function(){
 var good=atob("NnxzaXg=").split("|");
-var hints=["A Roman with a famous salad and a famous habit of shifting his letters."];
+var hints=["A Roman with a famous salad and a famous habit of shifting his letters.","He moved every letter along the alphabet by the same small step. A clue to the count is hidden in the verse.","When the line makes sense, look at its final word.","Move every letter back three places in the alphabet. The letters have been cut into blocks of five, so the word breaks are hidden: you will need to find the words yourself."];
 var hi=0;
 function check(){
 var v=document.getElementById("a").value.trim().toLowerCase();
