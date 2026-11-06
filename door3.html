@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Key Three</title>
+<style>
+:root{--bg:#f4efe6;--ink:#2a2622;--muted:#7a7068;--card:#fffaf0;--accent:#9a5b2e;--line:#d9cdb9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}}
+:root[data-theme="dark"]{--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+main{max-width:36rem;margin:0 auto;padding:2.5rem 1rem 3rem}
+.count{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.key{width:2.4rem;height:2.4rem;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.95rem}
+.key.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+h1{font-weight:normal;letter-spacing:.3em;text-transform:uppercase;font-size:1rem;text-align:center;color:var(--muted);margin:0 0 2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem}
+.verse{font-style:italic;text-align:center;margin:0 0 1.25rem}
+#g{display:grid;grid-template-columns:auto repeat(10,1fr);gap:0;margin:1rem auto;max-width:100%;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.cc{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:.68rem;line-height:1.15;color:var(--muted);padding-bottom:.2rem;font-family:Arial,sans-serif}
+.rc{display:flex;justify-content:flex-end;align-items:center;gap:.3rem;font-size:.72rem;color:var(--muted);padding-right:.4rem;font-family:Arial,sans-serif;white-space:nowrap}
+.c{aspect-ratio:1/1;border:1px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted);font-family:Arial,sans-serif;cursor:pointer}
+.c.r4{border-right:2px solid var(--muted)}
+.c.b4{border-bottom:2px solid var(--muted)}
+.c.f{background:var(--accent);border-color:var(--accent)}
+.ask{text-align:center;margin:1.25rem 0 1rem;display:none}
+.row{display:none;gap:.5rem;justify-content:center}
+#a{width:5rem;text-align:center;font-size:1.3rem;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit}
+button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+.msg{min-height:1.5rem;text-align:center;margin-top:.9rem;color:var(--muted);font-style:italic}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;margin-top:.4rem}
+#win{display:none;text-align:center}
+#win p{margin:.6rem 0}
+#play{display:none}
+@keyframes fi3{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#play.show{display:block;animation:fi3 1.4s ease both}
+#slide .verse{margin-bottom:1.25rem}
+#sb{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:19rem;margin:1.25rem auto;touch-action:manipulation}
+.st{aspect-ratio:1/1;cursor:pointer;border-radius:4px;overflow:hidden;line-height:0;background:var(--miss)}
+.st svg{width:100%;height:100%;display:block}
+.st.e{background:none;border:1px dashed var(--line);cursor:default}
+#sb.done{gap:0}
+#sb.done .st{border-radius:0;pointer-events:none;cursor:default}
+.scnt{text-align:center;color:var(--muted);font-size:.9rem}
+.srow{display:flex;justify-content:center;margin-top:.6rem}
+.srow button{background:none;color:var(--muted);border-color:var(--line)}
+#sm{min-height:1.5rem;text-align:center;color:var(--accent);font-style:italic;margin-top:.9rem}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1226"/><stop offset=".65" stop-color="#43336a"/><stop offset="1" stop-color="#d98a52"/></linearGradient>
+<g id="sc">
+<rect width="300" height="300" fill="url(#sk)"/>
+<g fill="#fff" opacity=".8"><circle cx="30" cy="30" r="1.6"/><circle cx="90" cy="55" r="1.2"/><circle cx="150" cy="22" r="1.6"/><circle cx="210" cy="60" r="1.2"/><circle cx="270" cy="35" r="1.6"/><circle cx="60" cy="100" r="1.2"/><circle cx="240" cy="110" r="1.2"/></g>
+<circle cx="225" cy="70" r="26" fill="#f4e9c8"/><circle cx="236" cy="62" r="24" fill="#43336a" opacity=".55"/>
+<path d="M0,300 L0,190 L55,120 L95,165 L150,85 L205,170 L245,130 L300,185 L300,300Z" fill="#161a2c"/>
+<path d="M150,85 L128,115 L142,110 L150,122 L160,108 L172,116Z" fill="#e9eef7"/>
+<path d="M55,120 L40,142 L52,138 L60,146 L68,136Z" fill="#e9eef7"/>
+<path d="M0,300 L0,235 Q80,215 150,240 T300,225 L300,300Z" fill="#0b0d18"/>
+<rect x="115" y="228" width="70" height="46" fill="#1d1620"/>
+<path d="M108,228 L150,196 L192,228Z" fill="#2b1f2c"/>
+<rect x="132" y="240" width="18" height="18" fill="#ffd27a"/><rect x="161" y="240" width="14" height="34" fill="#0b0d18"/>
+<g fill="#08101a"><path d="M40,275 L52,235 L64,275Z"/><path d="M62,282 L76,240 L90,282Z"/><path d="M210,278 L222,238 L234,278Z"/><path d="M234,284 L248,244 L262,284Z"/></g>
+</g>
+</defs>
+</svg>
+<main>
+<div class="count" aria-label="Keys found">
+<div class="key on">1</div><div class="key on">2</div><div class="key on">3</div><div class="key">4</div><div class="key">5</div>
+</div>
+<h1>The Third Key</h1>
+<div class="card" id="slide">
+<p class="verse">A picture has been shaken from its frame and lies in nine pieces.<br>One piece is missing, and the space it left lets the others move.<br>Slide them back, and see what the window was looking at.</p>
+<div id="sb"></div>
+<div class="scnt" id="scnt"></div>
+<div class="srow"><button id="srs">Shake it again</button></div>
+<div id="sm"></div>
+</div>
+<div class="card" id="play">
+<p class="verse">Ten windows across, ten windows down.<br>The numbers at the edges tell how many burn in an unbroken run,<br>and between each run, at least one stays dark.<br>Light only what must be lit, and a shape will remember itself.<br>When the picture is true, a door will open.</p>
+<div id="g"></div>
+<div class="hint">Tap to light a window. Tap again to mark it dark. Once more to clear it.</div>
+<div class="msg" id="msg"></div>
+<p class="ask" id="ask">The shadows hold.<br>What do they spell?</p>
+<div class="row" id="row"><input id="a" inputmode="text" maxlength="8" autocomplete="off" aria-label="Your key"><button id="go">Try</button></div>
+</div>
+<div class="card" id="win">
+<p style="font-size:1.4rem">Key three is yours: 2</p>
+<p>The air is getting thinner. Two more to find.</p>
+<p class="hint">Keep all three numbers close, in the order you found them.</p>
+<style>@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.info{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);animation:fi 1.6s ease .6s both}.info .t{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}.info p{font-style:italic;margin:.4rem 0}</style>
+<div class="info"><p class="t">A word for the road</p><p>Amid all that cold, there is warmth to be found, and water that asks very little of you but a little less clothing.<br>Bring a piece of summer with you in miniature, or better still, two.<br>And above all, come prepared to relax: leave the hurry at the door, and bring only your willingness to be still.<br>And wander freely: let unfamiliar places lead you, and let the strange and the new teach you sensations you have not yet met.</p></div>
+<div class="info" style="animation-delay:2.8s"><p>Seek the poet in marble, who keeps his vigil over a market of lanterns long after his last verse. Then rise above him, to where the gold-maned are said to be born, and the water forgets what season it is. Across the valley, pillars of earth wear hats of stone, as patient as chess pieces, and they have stood there longer than anyone has been counting.</p></div>
+</div>
+</main>
+<script>
+(function(){
+var N=10,sol=atob("MDAxMTExMTEwMDAxMTExMTExMTAwMTEwMDAwMTExMDAwMDAwMDAxMTAwMDAwMDAxMTEwMDAwMDAxMTEwMDAwMDAxMTEwMDAwMDExMTAwMDAwMDExMTAwMDAwMDExMTExMTExMQ==");
+var good=atob("Mnx0d28=").split("|");
+function clue(a){var o=[],c=0;a.forEach(function(v){if(v){c++}else if(c){o.push(c);c=0}});if(c)o.push(c);return o.length?o:[0]}
+var g=document.getElementById("g"),st=[],cells=[],done=false,mode=0,painting=false;
+for(var i=0;i<N*N;i++)st.push(0);
+g.appendChild(document.createElement("div"));
+for(var c=0;c<N;c++){
+var col=[];for(var r=0;r<N;r++)col.push(sol.charAt(r*N+c)==="1"?1:0);
+var d=document.createElement("div");d.className="cc";
+clue(col).forEach(function(n){var s=document.createElement("span");s.textContent=n;d.appendChild(s)});
+g.appendChild(d);
+}
+for(var r=0;r<N;r++){
+var row=[];for(var c2=0;c2<N;c2++)row.push(sol.charAt(r*N+c2)==="1"?1:0);
+var rc=document.createElement("div");rc.className="rc";
+clue(row).forEach(function(n){var s=document.createElement("span");s.textContent=n;rc.appendChild(s)});
+g.appendChild(rc);
+for(var c3=0;c3<N;c3++){
+var idx=r*N+c3;
+var e=document.createElement("div");
+e.className="c"+(c3%5===4&&c3<N-1?" r4":"")+(r%5===4&&r<N-1?" b4":"");
+e.dataset.i=idx;cells.push(e);g.appendChild(e);
+}
+}
+function paint(i){var e=cells[i];e.className=e.className.replace(/ f\b/,"");e.textContent="";if(st[i]===1){e.className+=" f"}else if(st[i]===2){e.textContent="×"}}
+function setCell(i,v){if(st[i]!==v){st[i]=v;paint(i)}}
+var tap=null;
+function win(){
+for(var i=0;i<N*N;i++){if((st[i]===1)!==(sol.charAt(i)==="1"))return}
+done=true;
+document.getElementById("msg").textContent="";
+document.getElementById("ask").style.display="block";
+document.getElementById("row").style.display="flex";
+}
+g.addEventListener("pointerdown",function(ev){
+if(done)return;
+var t=ev.target;if(t.dataset.i===undefined)return;
+var i=+t.dataset.i;
+if(ev.pointerType==="mouse"){ev.preventDefault();painting=true;mode=(st[i]+1)%3;setCell(i,mode)}
+else{tap={i:i,x:ev.clientX,y:ev.clientY}}
+});
+document.addEventListener("pointermove",function(ev){
+if(!painting||done)return;
+var el=document.elementFromPoint(ev.clientX,ev.clientY);
+if(el&&el.dataset&&el.dataset.i!==undefined)setCell(+el.dataset.i,mode);
+});
+document.addEventListener("pointercancel",function(){tap=null;painting=false});
+document.addEventListener("pointerup",function(ev){
+if(tap){var d=Math.abs(ev.clientX-tap.x)+Math.abs(ev.clientY-tap.y);if(d<10){setCell(tap.i,(st[tap.i]+1)%3);win()}tap=null;return}
+if(!painting)return;painting=false;win();
+});
+function check(){
+var v=document.getElementById("a").value.trim().toLowerCase();
+var m=document.getElementById("msg");
+if(!v||!done)return;
+if(good.indexOf(v)>-1){
+document.getElementById("play").style.display="none";
+document.getElementById("win").style.display="block";
+}else{m.textContent="Not yet. Look at the shadows again."}
+}
+document.getElementById("go").onclick=check;
+document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")check()});
+})();
+</script>
+<script>
+(function(){
+var pos,moves,done=false,b=document.getElementById("sb");
+function start(){
+pos=[0,1,2,3,4,5,6,7,8];
+var e=8,seed=12345,last=-1;
+for(var i=0;i<90;i++){
+seed=(seed*1103515245+12345)&2147483647;
+var r=Math.floor(e/3),c=e%3,opts=[];
+if(r>0)opts.push(e-3);if(r<2)opts.push(e+3);if(c>0)opts.push(e-1);if(c<2)opts.push(e+1);
+opts=opts.filter(function(o){return o!==last});
+var m=opts[seed%opts.length];
+pos[e]=pos[m];pos[m]=8;last=e;e=m;
+}
+moves=0;done=false;b.className="";document.getElementById("sm").textContent="";draw();
+}
+function draw(){
+b.innerHTML="";
+pos.forEach(function(id,i){
+var d=document.createElement("div");
+if(id===8&&!done){d.className="st e"}
+else{d.className="st";d.innerHTML='<svg viewBox="'+((id%3)*100)+' '+(Math.floor(id/3)*100)+' 100 100"><use href="#sc"/></svg>';d.onclick=function(){tap(i)}}
+b.appendChild(d);
+});
+document.getElementById("scnt").textContent="Moves: "+moves;
+}
+function tap(i){
+if(done)return;
+var e=pos.indexOf(8),r=Math.floor(i/3),c=i%3,er=Math.floor(e/3),ec=e%3;
+if(Math.abs(r-er)+Math.abs(c-ec)!==1)return;
+pos[e]=pos[i];pos[i]=8;moves++;
+var ok=true;for(var k=0;k<9;k++){if(pos[k]!==k)ok=false}
+if(ok){
+done=true;b.className="done";draw();document.getElementById("srs").disabled=true;
+document.getElementById("sm").textContent="The window is whole. Now, let there be light.";
+setTimeout(function(){
+document.getElementById("slide").style.display="none";
+document.getElementById("play").className="card show";
+window.scrollTo({top:0,behavior:"smooth"});
+},5000);
+return;
+}
+draw();
+}
+document.getElementById("srs").onclick=function(){if(!done)start()};
+start();
+})();
+</script>
+</body>
+</html>
