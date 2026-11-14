@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Key Four</title>
+<style>
+:root{--bg:#f4efe6;--ink:#2a2622;--muted:#7a7068;--card:#fffaf0;--accent:#9a5b2e;--line:#d9cdb9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}}
+:root[data-theme="dark"]{--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+main{max-width:34rem;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+.count{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.key{width:2.4rem;height:2.4rem;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.95rem}
+.key.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+h1{font-weight:normal;letter-spacing:.3em;text-transform:uppercase;font-size:1rem;text-align:center;color:var(--muted);margin:0 0 2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem}
+.verse{font-style:italic;text-align:center;margin:0 0 1.25rem}
+.nums{text-align:center;letter-spacing:.35em;color:var(--accent);font-size:1.15rem;margin:0 0 1.25rem}
+ol{list-style:upper-roman;margin:0 0 1.5rem;padding-left:2.2rem}
+ol li{margin:.35rem 0}
+table{width:100%;border-collapse:collapse;margin:.5rem 0 1rem}
+td{padding:.4rem .25rem;border-top:1px solid var(--line)}
+td.n{font-size:1.1rem;letter-spacing:.05em}
+select{font-family:inherit;font-size:1rem;padding:.4rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.lbl{color:var(--muted);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;text-align:left}
+.ask{text-align:center;margin:1.5rem 0 1rem;display:none}
+.row{display:none;gap:.5rem;justify-content:center}
+#a{width:5rem;text-align:center;font-size:1.3rem;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit}
+button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+.center{text-align:center}
+.msg{min-height:1.5rem;text-align:center;margin-top:.9rem;color:var(--muted);font-style:italic}
+.hint{text-align:center;color:var(--muted);font-size:.95rem;margin-top:.6rem}
+#win{display:none;text-align:center}
+#win p{margin:.6rem 0}
+#play{display:none}
+@keyframes fi4{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#play.show{display:block;animation:fi4 1.4s ease both}
+#fm{display:grid;grid-template-columns:repeat(19,1fr);max-width:21rem;margin:1.25rem auto;border:1px solid var(--line);background:#0a0c12}
+.fc{aspect-ratio:1/1;background:#0a0c12}
+.fc.s.w{background:#2c303a}
+.fc.s.f{background:#1c1824}
+.fc.v.w{background:#6b7080}
+.fc.v.f{background:#4a3f55}
+.fc.x{background:#2d5a3d}
+.fc.x.v{background:#5fd68a;box-shadow:0 0 8px #5fd68a}
+.fc.p{background:#ffd27a;border-radius:50%;box-shadow:0 0 10px 3px rgba(255,210,122,.7)}
+.fpad{display:grid;grid-template-columns:repeat(3,3.4rem);gap:.4rem;justify-content:center;margin-top:.8rem}
+.fpad button{font-family:Arial,sans-serif;font-size:1.2rem;padding:.6rem 0;border-radius:10px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;touch-action:manipulation}
+.fpad button:disabled{opacity:.35}
+.fpad .u{grid-column:2}.fpad .l{grid-column:1;grid-row:2}.fpad .d{grid-column:2;grid-row:2}.fpad .r{grid-column:3;grid-row:2}
+#fmsg{min-height:1.5rem;text-align:center;color:var(--accent);font-style:italic;margin-top:.9rem}
+</style>
+</head>
+<body>
+<main>
+<div class="count" aria-label="Keys found">
+<div class="key on">1</div><div class="key on">2</div><div class="key on">3</div><div class="key on">4</div><div class="key">5</div><div class="key">6</div>
+</div>
+<h1>The Fourth Key</h1>
+<div class="card" id="walk">
+<p class="verse">The night is thick, and your lantern lights only a few steps in any direction.<br>Somewhere ahead, a green glow marks the way out, though it will not show itself from afar.<br>What you pass, you will only half remember.</p>
+<div id="fm"></div>
+<div class="fpad"><button class="u" data-d="u" aria-label="Up">&#9650;</button><button class="l" data-d="l" aria-label="Left">&#9664;</button><button class="d" data-d="d" aria-label="Down">&#9660;</button><button class="r" data-d="r" aria-label="Right">&#9654;</button></div>
+<div id="fmsg"></div>
+</div>
+<div class="card" id="play">
+<p class="verse">Five rites. Five hours. Five numbers.<br>Each rite is taken once, at its own hour,<br>and answers to a number that no other shares.</p>
+<p class="nums">10 &nbsp;22 &nbsp;34 &nbsp;55 &nbsp;80</p>
+<ol>
+<li>Haze keeps a lower number than Moss.</li>
+<li>The highest number greets the day.</li>
+<li>Slate answers to the lowest number.</li>
+<li>The lowest follows the highest without delay.</li>
+<li>Moss is neither the highest nor the lowest.</li>
+<li>Only Slate is lower than Reed.</li>
+<li>Nothing follows Reed.</li>
+<li>Haze follows Moss without delay.</li>
+</ol>
+<table id="grid"><tr><td></td><td class="lbl">Hour</td><td class="lbl">Number</td></tr></table>
+<div class="center"><button id="chk">Check my table</button></div>
+<div class="msg" id="msg"></div>
+<p class="ask" id="ask">Every table has a ceiling, and a number clings to it.<br>At what hour does its rite arrive?</p>
+<div class="row" id="row"><input id="a" inputmode="text" maxlength="8" autocomplete="off" aria-label="Your key"><button id="go">Try</button></div>
+</div>
+<div class="card" id="win">
+<p style="font-size:1.4rem">Key four is yours: 1</p>
+<p>Two locks remain, and then the way opens.</p>
+<p class="hint">Keep all four numbers close, in the order you found them.</p>
+<style>@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.info{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);animation:fi 1.6s ease .6s both}.info .t{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}.info p{font-style:italic;margin:.4rem 0}</style>
+<div class="info"><p class="t">A word for the road</p><p>Leave a little of yourself empty, for something is waiting to fill it.<br>Come hungry. The table where you are going has been laid with care, and it does not intend to be ignored.</p></div>
+<div class="info" style="animation-delay:2.8s"><p>The sea remembers what the stone refuses to say.</p></div>
+</div>
+</main>
+<script>
+(function(){
+var names=["Moss","Reed","Cedar","Haze","Slate"];
+var sol=atob("Mzo1NXw1OjIyfDE6ODB8NDozNHwyOjEw");
+var good=atob("MXxvbmU=").split("|");
+var grid=document.getElementById("grid");
+var hs=[],ns=[];
+function sel(opts){var s=document.createElement("select");var o=document.createElement("option");o.value="";o.textContent="–";s.appendChild(o);opts.forEach(function(v){var p=document.createElement("option");p.value=v;p.textContent=v;s.appendChild(p)});return s}
+names.forEach(function(n){
+var tr=document.createElement("tr");
+var a=document.createElement("td");a.className="n";a.textContent=n;
+var b=document.createElement("td");var h=sel([1,2,3,4,5]);b.appendChild(h);
+var c=document.createElement("td");var m=sel([10,22,34,55,80]);c.appendChild(m);
+tr.appendChild(a);tr.appendChild(b);tr.appendChild(c);grid.appendChild(tr);
+hs.push(h);ns.push(m);
+});
+var done=false;
+document.getElementById("chk").onclick=function(){
+if(done)return;
+var msg=document.getElementById("msg");
+var guess=hs.map(function(h,i){return h.value+":"+ns[i].value}).join("|");
+if(guess===sol){
+done=true;
+hs.concat(ns).forEach(function(s){s.disabled=true});
+document.getElementById("chk").style.display="none";
+msg.textContent="The table holds.";
+document.getElementById("ask").style.display="block";
+document.getElementById("row").style.display="flex";
+}else{msg.textContent="Something in your table does not hold."}
+};
+function check(){
+var v=document.getElementById("a").value.trim().toLowerCase();
+var m=document.getElementById("msg");
+if(!v||!done)return;
+if(good.indexOf(v)>-1){
+document.getElementById("play").style.display="none";
+document.getElementById("win").style.display="block";
+}else{m.textContent="Not yet. Look at the floor again."}
+}
+document.getElementById("go").onclick=check;
+document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")check()});
+})();
+</script>
+<script>
+(function(){
+var N=19,seed=9,g=[];
+function rnd(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296}
+for(var y=0;y<N;y++){g.push([]);for(var x=0;x<N;x++)g[y].push(1)}
+var st=[[1,1]];g[1][1]=0;
+while(st.length){
+var cur=st[st.length-1],cx=cur[0],cy=cur[1];
+var ds=[[2,0],[-2,0],[0,2],[0,-2]].filter(function(d){var nx=cx+d[0],ny=cy+d[1];return nx>0&&ny>0&&nx<N-1&&ny<N-1&&g[ny][nx]===1});
+if(!ds.length){st.pop();continue}
+var d=ds[Math.floor(rnd()*ds.length)];
+g[cy+d[1]/2][cx+d[0]/2]=0;g[cy+d[1]][cx+d[0]]=0;st.push([cx+d[0],cy+d[1]]);
+}
+
+var px=1,py=1,done=false,seen={},EX=N-2,EY=N-2,el=[],m=document.getElementById("fm");
+for(var y2=0;y2<N;y2++)for(var x2=0;x2<N;x2++){var c=document.createElement("div");c.className="fc";m.appendChild(c);el.push(c)}
+function draw(){
+for(var y=0;y<N;y++)for(var x=0;x<N;x++){
+var dx=x-px,dy=y-py,vis=dx*dx+dy*dy<=5,k=x+","+y;
+if(vis)seen[k]=1;
+var cl="fc";
+if(x===px&&y===py)cl+=" p";
+else if(x===EX&&y===EY&&seen[k])cl+=" x"+(vis?" v":"");
+else if(seen[k])cl+=(vis?" v":" s")+(g[y][x]?" w":" f");
+el[y*N+x].className=cl;
+}
+}
+function move(dir){
+if(done)return;
+var nx=px+(dir==="r"?1:dir==="l"?-1:0),ny=py+(dir==="d"?1:dir==="u"?-1:0);
+if(g[ny]&&g[ny][nx]===0){
+px=nx;py=ny;draw();
+if(px===EX&&py===EY){
+done=true;
+Array.prototype.forEach.call(document.querySelectorAll(".fpad button"),function(b){b.disabled=true});
+document.getElementById("fmsg").textContent="The way out glows green. Now, the table.";
+setTimeout(function(){
+document.getElementById("walk").style.display="none";
+document.getElementById("play").className="card show";
+window.scrollTo({top:0,behavior:"smooth"});
+},4000);
+}
+}
+}
+Array.prototype.forEach.call(document.querySelectorAll(".fpad button"),function(b){b.onclick=function(){move(b.getAttribute("data-d"))}});
+document.addEventListener("keydown",function(e){var k={ArrowUp:"u",ArrowDown:"d",ArrowLeft:"l",ArrowRight:"r"}[e.key];if(k&&!done){e.preventDefault();move(k)}});
+draw();
+})();
+</script>
+</body>
+</html>
