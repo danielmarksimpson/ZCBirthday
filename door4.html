@@ -82,6 +82,8 @@ button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8p
 </ol>
 <table id="grid"><tr><td></td><td class="lbl">Hour</td><td class="lbl">Number</td></tr></table>
 <div class="center"><button id="chk">Check my table</button></div>
+<div class="center"><button id="hb4" style="background:none;color:var(--muted);border-color:var(--line);margin-top:.9rem">A nudge?</button></div>
+<div class="hint" id="h4" style="font-style:italic;margin-top:.8rem"></div>
 <div class="msg" id="msg"></div>
 <p class="ask" id="ask">Every table has a ceiling, and a number clings to it.<br>At what hour does its rite arrive?</p>
 <div class="row" id="row"><input id="a" inputmode="text" maxlength="8" autocomplete="off" aria-label="Your key"><button id="go">Try</button></div>
@@ -135,6 +137,8 @@ document.getElementById("win").style.display="block";
 }else{m.textContent="Not yet. Look at the floor again."}
 }
 document.getElementById("go").onclick=check;
+var h4=["The hours and the numbers are two separate things to match to each rite. Begin with the clues that speak of the highest and the lowest.","The highest number greets the day, and the lowest follows it without delay. So the first two hours are settled in shape before you know any names. Slate holds the lowest.","Who could hold the highest number? Not Moss, who is neither highest nor lowest. Not Haze, who is lower than Moss. Not Reed, for only Slate is lower than her. That leaves one rite for the first hour.","Cedar comes first with the 80, and Slate second with the 10. Reed holds the 22 and is last, because nothing follows her. Moss comes directly before Haze, so Moss is third with the 55, and Haze is fourth with the 34.","The ceiling is the highest number. Look at which hour it sits in."],hi4=0;
+document.getElementById("hb4").onclick=function(){document.getElementById("h4").textContent=h4[Math.min(hi4,h4.length-1)];hi4++};
 document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")check()});
 })();
 </script>
