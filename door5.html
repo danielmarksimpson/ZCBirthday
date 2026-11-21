@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Key Five</title>
+<style>
+:root{--bg:#f4efe6;--ink:#2a2622;--muted:#7a7068;--card:#fffaf0;--accent:#9a5b2e;--line:#d9cdb9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}}
+:root[data-theme="dark"]{--bg:#15181c;--ink:#ece6da;--muted:#9a948a;--card:#1e2328;--accent:#e0a86a;--line:#343b42}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+main{max-width:34rem;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+.count{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.key{width:2.4rem;height:2.4rem;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.95rem}
+.key.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+h1{font-weight:normal;letter-spacing:.3em;text-transform:uppercase;font-size:1rem;text-align:center;color:var(--muted);margin:0 0 2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem}
+.verse{font-style:italic;text-align:center;margin:0 0 1.25rem}
+.rd{margin:1.5rem 0;padding-top:1.25rem;border-top:1px solid var(--line);text-align:center}
+.rd p{font-style:italic;margin:0 0 .9rem}
+.rd.ok p{color:var(--muted)}
+.rd.ok .rowx{display:none}
+.rd .done{display:none;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;font-size:.85rem}
+.rd.ok .done{display:block}
+.rowx,.row{display:flex;gap:.5rem;justify-content:center}
+.fin{display:none;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);text-align:center}
+.t{width:11rem;text-align:center;font-size:1.05rem;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit}
+#a{width:5rem;text-align:center;font-size:1.3rem;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-family:inherit}
+button{font-family:inherit;font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+.msg{min-height:1.5rem;text-align:center;margin-top:.9rem;color:var(--muted);font-style:italic}
+.hint{text-align:center;color:var(--muted);font-size:.95rem;margin-top:.6rem}
+#win{display:none;text-align:center}
+#win p{margin:.6rem 0}
+#play{display:none}
+@keyframes fi5{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#play.show{display:block;animation:fi5 1.4s ease both}
+#hp{display:flex;gap:.6rem;justify-content:center;margin:1.25rem 0 .5rem}
+#hp.done{pointer-events:none}
+.hpg{flex:1;max-width:8.5rem;height:11rem;border-bottom:4px solid var(--muted);position:relative;display:flex;flex-direction:column-reverse;align-items:center;cursor:pointer;border-radius:6px 6px 0 0}
+.hpg::before{content:"";position:absolute;bottom:0;left:50%;width:6px;height:100%;background:var(--line);transform:translateX(-50%);border-radius:3px}
+.hpg.sel{background:rgba(224,168,106,.12)}
+.hdk{height:1.55rem;margin-top:3px;border-radius:6px;position:relative;z-index:1;background:var(--accent)}
+.hdk.lift{box-shadow:0 0 10px var(--accent);outline:2px solid var(--ink)}
+.hcnt{text-align:center;color:var(--muted);font-size:.9rem}
+#hm{min-height:1.4rem;text-align:center;color:var(--muted);font-style:italic;margin-top:.5rem}
+.hrow{display:flex;justify-content:center;margin-top:.5rem}
+.hrow button{background:none;color:var(--muted);border-color:var(--line)}
+</style>
+</head>
+<body>
+<main>
+<div class="count" aria-label="Keys found">
+<div class="key on">1</div><div class="key on">2</div><div class="key on">3</div><div class="key on">4</div><div class="key on">5</div><div class="key">6</div>
+</div>
+<h1>The Fifth Key</h1>
+<div class="card" id="pillars">
+<p class="verse">Four rings of stone rest upon the first pillar, the greatest below.<br>Carry them all to the last, one ring at a time.<br>No greater ring may ever rest upon a lesser one.</p>
+<div id="hp"></div>
+<div class="hcnt" id="hc"></div>
+<div id="hm"></div>
+<div class="hrow"><button id="hr">Begin again</button></div>
+</div>
+<div class="card" id="play">
+<p class="verse">Two riddles stand in your way.<br>Name them both, and the lock will turn.</p>
+<div class="rd" id="r0">
+<p>I am the heaviest thing a room can hold and the lightest to give.<br>I break the moment you name me.<br>The snow brings me in handfuls, and a good friend can share me without a word.<br>What am I?</p>
+<div class="rowx"><input class="t" autocomplete="off" autocapitalize="off" aria-label="First answer"><button>Offer</button></div>
+<div class="done">Named</div>
+</div>
+<div class="rd" id="r1">
+<p>I climb without legs and vanish without a trace.<br>Fire is my mother and water is my father.<br>The world tightens you; I am what loosens.<br>What am I?</p>
+<div class="rowx"><input class="t" autocomplete="off" autocapitalize="off" aria-label="Second answer"><button>Offer</button></div>
+<div class="done">Named</div>
+</div>
+<div class="fin" id="fin">
+<p>Lay one over the other.<br>How many letters stand on common ground?</p>
+<div class="row"><input id="a" inputmode="text" maxlength="8" autocomplete="off" aria-label="Your key"><button id="go">Try</button></div>
+<div style="text-align:center"><button id="fb" style="background:none;color:var(--muted);border-color:var(--line);margin-top:.9rem">A nudge?</button></div>
+<div class="hint" id="fh" style="font-style:italic"></div>
+</div>
+<div class="msg" id="msg"></div>
+</div>
+<div class="card" id="win">
+<p style="font-size:1.4rem">Key five is yours: 2</p>
+<p>Five are in your hand now, and one door remains.</p>
+<p class="hint">Hold them in the order you found them. One more door waits.</p>
+<style>@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.info{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);animation:fi 1.6s ease .6s both}.info .t{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}.info p{font-style:italic;margin:.4rem 0}</style>
+<div class="info"><p class="t">A word for the road</p><p>Pack one thing to be looked at in.<br>The evenings will deserve it.</p></div>
+<div class="info" style="animation-delay:2.8s"><p>The place has two names, and neither is wrong.<br>You will stand before a man older than the pyramids, and he will not mind the queue.</p></div>
+</div>
+</main>
+<script>
+(function(){
+function norm(s){return s.toLowerCase().replace(/ö/g,"o").replace(/ä/g,"a").replace(/ü/g,"u").replace(/[^a-z]/g,"")}
+var ans=[atob("c2lsZW5jZXx0aGVzaWxlbmNl").split("|"),atob("c3RlYW18dGhlc3RlYW0=").split("|")];
+var good=atob("Mnx0d28=").split("|");
+var ok=[false,false];
+var msg=document.getElementById("msg");
+function after(){if(ok[0]&&ok[1]){document.getElementById("fin").style.display="block";msg.textContent=""}}
+[0,1].forEach(function(i){
+var box=document.getElementById("r"+i),inp=box.querySelector("input"),btn=box.querySelector("button");
+function go(){
+var v=norm(inp.value);if(!v)return;
+if(ans[i].indexOf(v)>-1){ok[i]=true;box.classList.add("ok");msg.textContent="";after()}
+else{msg.textContent="Not yet. Look again, slowly."}
+}
+btn.onclick=go;
+inp.addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+});
+function check(){
+var v=document.getElementById("a").value.trim().toLowerCase();
+if(!v||!(ok[0]&&ok[1]))return;
+if(good.indexOf(v)>-1){
+document.getElementById("play").style.display="none";
+document.getElementById("win").style.display="block";
+}else{msg.textContent="Not yet. Count again."}
+}
+document.getElementById("go").onclick=check;
+document.getElementById("fb").onclick=function(){document.getElementById("fh").textContent="Common ground is not a single square of earth. A letter may sit in a different place in each word, and still be shared."};
+document.getElementById("a").addEventListener("keydown",function(e){if(e.key==="Enter")check()});
+})();
+</script>
+<script>
+(function(){
+var peg,sel,moves,done=false;
+var pegsEl=document.getElementById("hp"),msg=document.getElementById("hm");
+function init(){peg=[[4,3,2,1],[],[]];sel=-1;moves=0;msg.textContent="";draw()}
+function draw(){
+pegsEl.innerHTML="";
+peg.forEach(function(st,i){
+var p=document.createElement("div");p.className="hpg"+(sel===i?" sel":"");
+st.forEach(function(v,j){var d=document.createElement("div");d.className="hdk"+(sel===i&&j===st.length-1?" lift":"");d.style.width=(28+v*18)+"%";p.appendChild(d)});
+p.onclick=function(){tap(i)};
+pegsEl.appendChild(p);
+});
+document.getElementById("hc").textContent="Moves: "+moves;
+}
+function tap(i){
+if(done)return;
+msg.textContent="";
+if(sel===-1){if(peg[i].length)sel=i}
+else if(sel===i){sel=-1}
+else{
+var s=peg[sel],t=peg[i],v=s[s.length-1];
+if(t.length&&t[t.length-1]<v){msg.textContent="A greater ring may not rest on a lesser.";sel=-1}
+else{
+t.push(s.pop());moves++;sel=-1;
+if(peg[2].length===4){
+done=true;draw();pegsEl.className="done";document.getElementById("hr").disabled=true;
+msg.textContent="The pillars stand. Now, the riddles.";
+setTimeout(function(){
+document.getElementById("pillars").style.display="none";
+document.getElementById("play").className="card show";
+window.scrollTo({top:0,behavior:"smooth"});
+},4000);
+return;
+}
+}
+}
+draw();
+}
+document.getElementById("hr").onclick=function(){if(!done)init()};
+init();
+})();
+</script>
+</body>
+</html>
